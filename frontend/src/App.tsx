@@ -1,13 +1,17 @@
-
+import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import './App.css'
 
 function App() {
-
-  const socket = io("http://localhost:3000",{
-    autoConnect: false
+  useEffect(() => {
+  const socket = io("http://localhost:3000", {
+    autoConnect: false,
   });
-  socket.connect();
+  return () => {
+    socket.connect();
+  };
+}, []);
+
   return (
     <>
       <p>hello</p>
