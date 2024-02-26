@@ -17,8 +17,10 @@ const io = new socket_io_1.Server(server, {
 });
 io.on('connection', (socket) => {
     console.log('a user connected', socket.id);
+    socket.on('chat message', (msg) => {
+        console.log(msg);
+    });
 });
-io.listen(5173);
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
