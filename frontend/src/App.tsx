@@ -1,12 +1,12 @@
 import { MouseEvent, useEffect , useState} from 'react';
-import { io } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 import './App.css'
 
 function App() {//Type Assertion
   const [Message, setMessage] = useState('');
-
+  var socket: Socket;
   useEffect(() => {
-  const socket = io("http://localhost:3000", {
+  socket = io("http://localhost:3000", {
     autoConnect: false,
     reconnection: false,
   });
@@ -18,7 +18,7 @@ function App() {//Type Assertion
 function handleClick(e: MouseEvent<HTMLButtonElement, Event>) {
   e.preventDefault(); //prevent refresh of the page
  
-  console.log(Message);
+  socket.emit('chat message', Message);
   setMessage('');
   //empties the input field
 }
