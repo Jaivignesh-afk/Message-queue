@@ -4,6 +4,7 @@ import './App.css'
 
 function App() {//Type Assertion
   const [Message, setMessage] = useState('');
+
   useEffect(() => {
   const socket = io("http://localhost:3000", {
     autoConnect: false,
@@ -18,12 +19,12 @@ function handleClick(e: MouseEvent<HTMLButtonElement, Event>) {
   e.preventDefault(); //prevent refresh of the page
  
   console.log(Message);
-  
-  e.currentTarget.value = ''; //empties the input field
+  setMessage('');
+  //empties the input field
 }
   return (
     <>
-      <input onChange={e => setMessage(e.target.value)} type='text' name="msg" value={Message}/>
+      <input onChange={e => setMessage(e.target.value)} type='text' name="msg" value={Message ?? ''}/>
       <button type='submit' onClick={handleClick}>Send</button>
     </>
   )
