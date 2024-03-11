@@ -1,9 +1,8 @@
-import Chat from './components/Chat';
-import Login from './components/Login';
-import './App.css';
+import Home from './components/Home';
+import "./App.css"
 
-function App(props: {LoggedIn: boolean}) {
-  return props.LoggedIn ? <Chat /> : <Login />;
+function App() {
+  return <Home LoggedIn = {false} />;
 }
 
 export default App;

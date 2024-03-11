@@ -1,16 +1,15 @@
 
-import '../App.css';
 
 function Login(){
 return (
         <div className="container">
             <div className="row">
-                <div className="col-md-6">
+                <div className="columns-1">
                     <h2>Login</h2>
                     <form>
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="email" className="form-control" />
+                            <input type="email" className="rounded-xl" />
                         </div>
                         <div className="form-group">
                             <label>Password</label>
