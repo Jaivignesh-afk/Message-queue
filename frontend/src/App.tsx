@@ -1,8 +1,6 @@
-import Home from './components/Home';
-import "./App.css"
+import Home from "./components/Home";
 
-function App() {
-  return <Home LoggedIn = {false} />;
+export default function App() {
+  return <Home LoggedIn={false} />;
 }
 
-export default App;
