@@ -6,6 +6,10 @@ module.exports = {
     "./index.html",
   ],
   theme: {
+    fontFamily: {
+      // Array format:
+      'sans': ['Helvetica', 'Arial', 'sans-serif'],
+    },
     extend: {},
   },
   plugins: [],
