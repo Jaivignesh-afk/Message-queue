@@ -1,14 +1,12 @@
 
-import { styles }  from "../static/css"
-console.log(styles.container);
 
 export default function Login() {
   
   
 
   return (
-    <div className="">
-        <div className={ styles.container }>
+    <div className="container">
+        <div className="h-screen w-screen flex justify-center items-center rounded-md">
           <div><h2 className="text-center">Login</h2></div>
           <div className="flex flex-col space-y-4">
             <form>
