@@ -8,7 +8,16 @@ const hostname = "127.0.0.1";
 const port = 3000;
 
 const server = createServer((req, res) => {
-  console.log(req);
+  if(req.method === "POST" && req.url === "/auth"){
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk;
+    });
+    req.on("end", () => {
+      console.log(data);
+      res.end();
+  });
+}
 });
 
 const io = new Server(server, {

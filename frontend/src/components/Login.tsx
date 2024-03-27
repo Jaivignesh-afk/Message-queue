@@ -1,15 +1,20 @@
-import type { ChangeEvent, FormEvent } from "react";
-import { useState } from "react";
+import type { ChangeEvent, FormEvent } from "react"; 
+import { useState } from "react"; 
+import axios from "axios";
 
 export default function Login() {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
+  
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    console.log(user);
+    try{
+      axios.post("http://localhost:3000/auth",user);
+    }catch(error){
+      console.error(error);
+    }
   }
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
@@ -35,11 +40,7 @@ export default function Login() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form
-              className="space-y-4 md:space-y-6"
-              method="POST"
-              onSubmit={handleSubmit}
-            >
+            <form className="space-y-4 md:space-y-6" method="POST" onSubmit={handleSubmit}>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Your email
