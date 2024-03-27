@@ -7,14 +7,14 @@ const socket = io("http://localhost:3000", {
 });
 function Chat() {
   //Type Assertion
-  const [Message, setMessage] = useState<string>("");
+  const [Message, setMessage] = useState("");
   useEffect(() => {
     return () => {
       socket.connect();
     };
   }, []); //Done to execute only once(connection to the socket)
   function handleClick(e: MouseEvent) {
-    e.preventDefault(); //prevent refresh of the page
+    e.preventDefault(); //prevent refresh
 
     socket.emit("chat message", Message);
     setMessage("");

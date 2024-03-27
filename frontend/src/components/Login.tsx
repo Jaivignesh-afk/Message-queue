@@ -10,11 +10,16 @@ export default function Login() {
   
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    try{
-      axios.post("http://localhost:3000/auth",user);
-    }catch(error){
-      console.error(error);
-    }
+    axios.post("http://localhost:3000/auth",user,{
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*", 
+      },
+    })
+      .then(response => console.log(response))
+      .catch(AxiosError => console.log(AxiosError));
+    
   }
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
