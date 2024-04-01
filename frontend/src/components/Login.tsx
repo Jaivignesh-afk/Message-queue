@@ -1,13 +1,28 @@
 import type { ChangeEvent, FormEvent } from "react"; 
-import { useState } from "react"; 
+import { useState, useEffect } from "react"; 
 import axios from "axios";
+
 
 export default function Login() {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
   const [clicked, setClicked] = useState(false);
+  function Error(){
+    useEffect(()=>{
+      setTimeout(()=>{
+        setClicked(false);
+      }, 3500);
+    });
+    return clicked ? (
+      <div className="border border-red-400 rounded bg-red-100 px-2 py-1 text-red-700">
+        Please fill this field
+      </div>
+    ) : <></>;
+  }
+  
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setClicked(true);
@@ -42,7 +57,8 @@ export default function Login() {
             </h1>
             <form className="space-y-4 md:space-y-6" method="POST" onSubmit={handleSubmit}>
               <div>
-                <label className="after:content-['*'] after:text-red-500 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {clicked && user.email === "" ? <Error /> : <></> }
+                <label className="after:content-['*'] after:text-red-500 block text-sm font-medium text-gray-900 dark:text-white">
                   Email
                 </label>
                 <input
@@ -50,12 +66,14 @@ export default function Login() {
                   type="email"
                   name="email"
                   id="email"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring ${clicked && user.email === "" ? "ring-red-300" : "" } block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   placeholder="name@company.com"
                   onChange={handleInputChange}
                 />
               </div>
+              
               <div>
+                {clicked && user.password === "" ? <Error /> : <></> }
                 <label className="after:content-['*'] after:text-red-500 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
@@ -64,7 +82,7 @@ export default function Login() {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring ${clicked && user.password === "" ? "ring-red-300" : "" } block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   onChange={handleInputChange}
                 />
               </div>
