@@ -7,9 +7,10 @@ export default function Login() {
     email: "",
     password: "",
   });
-  
+  const [clicked, setClicked] = useState(false);
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    setClicked(true);
     axios.post("http://localhost:3000/auth",user,{
       headers: {
         Accept: "*/*",
@@ -21,7 +22,7 @@ export default function Login() {
       .catch(AxiosError => console.log(AxiosError));
     
   }
-
+       
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.currentTarget.name]: e.currentTarget.value });
   }
@@ -33,12 +34,6 @@ export default function Login() {
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
-          <img
-            className="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-            alt="logo"
-          />
-          Flowbite
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -47,20 +42,21 @@ export default function Login() {
             </h1>
             <form className="space-y-4 md:space-y-6" method="POST" onSubmit={handleSubmit}>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Your email
+                <label className="after:content-['*'] after:text-red-500 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Email
                 </label>
                 <input
+                  autoFocus
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   placeholder="name@company.com"
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="after:content-['*'] after:text-red-500 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
@@ -68,7 +64,7 @@ export default function Login() {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   onChange={handleInputChange}
                 />
               </div>
