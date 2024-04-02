@@ -1,7 +1,6 @@
-import type { ChangeEvent, FormEvent } from "react"; 
-import { useState, useEffect } from "react"; 
+import type { ChangeEvent, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -10,9 +9,11 @@ export default function Login() {
   });
 
   const [clicked, setClicked] = useState(false);
-  function Error(){
-    useEffect(()=>{
-      setTimeout(()=>{
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  function Error() {
+    useEffect(() => {
+      setTimeout(() => {
         setClicked(false);
       }, 3500);
     });
@@ -20,24 +21,69 @@ export default function Login() {
       <div className="border border-red-400 rounded bg-red-100 px-2 py-1 text-red-700">
         Please fill this field
       </div>
-    ) : <></>;
+    ) : (
+      <></>
+    );
   }
-  
+  function EmailError() {
+    return emailError === "" ? (
+      <></>
+    ) : (
+      <div className="border border-red-400 rounded bg-red-100 px-2 py-1 text-red-700">
+        {emailError}
+      </div>
+    );
+  }
+
+  function PasswordError() {
+    return passwordError === "" ? (
+      <></>
+    ) : (
+      <div className="border border-red-400 rounded bg-red-100 px-2 py-1 text-red-700">
+        {passwordError}
+      </div>
+    );
+  }
+
+  function validateEmail(email: string) {
+    const re = /^[A-Za-z0-9]+@[a-z]{4,8}\.[a-z]{2,10}$/;
+    return re.test(email);
+  }
+
+  function vaidatePassword(password: string) {
+    const re = /^[A-Za-z@_0-9]{8,20}$/;
+    return re.test(password);
+  }
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setClicked(true);
-    axios.post("http://localhost:3000/auth",user,{
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "*", 
-      },
-    })
-      .then(response => console.log(response))
-      .catch(AxiosError => console.log(AxiosError));
-    
+    if (user.email === "" || user.password === "") {
+      return;
+    }
+    validateEmail(user.email)
+      ? setEmailError("")
+      : setEmailError("Invalid Email");
+    vaidatePassword(user.password)
+      ? setPasswordError("")
+      : setPasswordError(
+          "Password should be 8 to 20 characters long with no special characters except @,_"
+        );
+    if (!validateEmail(user.email) || !vaidatePassword(user.password)) {
+      return;
+    }
+    axios
+      .post("http://localhost:3000/auth", user, {
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((response) => console.log(response))
+      .catch((AxiosError) => console.log(AxiosError));
   }
-       
+
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     setUser({ ...user, [e.currentTarget.name]: e.currentTarget.value });
   }
@@ -48,17 +94,21 @@ export default function Login() {
         <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-        </a>
+        ></a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" method="POST" onSubmit={handleSubmit}>
+            <form
+              className="space-y-4 md:space-y-6"
+              method="POST"
+              onSubmit={handleSubmit}
+            >
               <div>
-                {clicked && user.email === "" ? <Error /> : <></> }
-                <label className="after:content-['*'] after:text-red-500 block text-sm font-medium text-gray-900 dark:text-white">
+                {clicked && user.email === "" ? <Error /> : <></>}
+                <EmailError />
+                <label className="after:content-['*'] after:text-red-500 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Email
                 </label>
                 <input
@@ -66,14 +116,15 @@ export default function Login() {
                   type="email"
                   name="email"
                   id="email"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring ${clicked && user.email === "" ? "ring-red-300" : "" } block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring ${clicked && user.email === "" ? "ring-red-300" : ""} block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   placeholder="name@company.com"
                   onChange={handleInputChange}
                 />
               </div>
-              
+
               <div>
-                {clicked && user.password === "" ? <Error /> : <></> }
+                {clicked && user.password === "" ? <Error /> : <></>}
+                <PasswordError />
                 <label className="after:content-['*'] after:text-red-500 block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
@@ -82,7 +133,7 @@ export default function Login() {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring ${clicked && user.password === "" ? "ring-red-300" : "" } block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                  className={`bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring ${clicked && user.password === "" ? "ring-red-300" : ""} block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   onChange={handleInputChange}
                 />
               </div>
