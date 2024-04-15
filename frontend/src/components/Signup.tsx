@@ -4,6 +4,32 @@ import { ChangeEvent } from "react";
 import axios from "axios";
 import "../static/styles.css";
 
+function EmailError(props: { emailError: string }) {
+  return "" === props.emailError ? (
+    <></>
+  ) : (
+    <label className="text-red-500 text-xs">{props.emailError}</label>
+  );
+}
+
+function PasswordError(props: { passwordError: string }) {
+  return "" === props.passwordError ? (
+    <></>
+  ) : (
+    <label className="text-red-500 text-xs">{props.passwordError}</label>
+  );
+}
+
+function validateEmail(email: string) {
+  const re = /^[A-Za-z0-9]+@[a-z]{4,8}\.[a-z]{2,10}$/;
+  return re.test(email);
+}
+
+function vaidatePassword(password: string) {
+  const re = /^[A-Za-z@_0-9]{8,20}$/;
+  return re.test(password);
+}
+
 const Signup = () => {
   const [user, setUser] = useState({
     email: "",
@@ -15,6 +41,7 @@ const Signup = () => {
   const [clicked, setClicked] = useState(false);
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
+
   function Error() {
     useEffect(() => {
       setTimeout(() => {
@@ -26,31 +53,6 @@ const Signup = () => {
     ) : (
       <></>
     );
-  }
-  function EmailError() {
-    return "" === emailError ? (
-      <></>
-    ) : (
-      <label className="text-red-500 text-xs">{emailError}</label>
-    );
-  }
-
-  function PasswordError() {
-    return "" === passwordError ? (
-      <></>
-    ) : (
-      <label className="text-red-500 text-xs">{passwordError}</label>
-    );
-  }
-
-  function validateEmail(email: string) {
-    const re = /^[A-Za-z0-9]+@[a-z]{4,8}\.[a-z]{2,10}$/;
-    return re.test(email);
-  }
-
-  function vaidatePassword(password: string) {
-    const re = /^[A-Za-z@_0-9]{8,20}$/;
-    return re.test(password);
   }
 
   function handleSubmit(e: FormEvent) {
@@ -104,7 +106,7 @@ const Signup = () => {
                   onChange={handleInputChange}
                 />
                 {clicked && "" === user.email ? <Error /> : <></>}
-                <EmailError />
+                <EmailError emailError={emailError} />
               </div>
               <div>
                 <label className={"label"}>Phno</label>
@@ -117,7 +119,7 @@ const Signup = () => {
                   onChange={handleInputChange}
                 />
                 {clicked && "" === user.email ? <Error /> : <></>}
-                <EmailError />
+                <EmailError emailError={emailError} />
               </div>
               <div>
                 <label className={"label"}>Password</label>
@@ -130,7 +132,7 @@ const Signup = () => {
                   onChange={handleInputChange}
                 />
                 {clicked && "" === user.password ? <Error /> : <></>}
-                <PasswordError />
+                <PasswordError passwordError={passwordError} />
               </div>
               <div>
                 <label className={"label"}>Retype Password</label>
@@ -143,7 +145,7 @@ const Signup = () => {
                   onChange={handleInputChange}
                 />
                 {clicked && "" === user.retypePassword ? <Error /> : <></>}
-                <PasswordError />
+                <PasswordError passwordError={passwordError} />
               </div>
               <div className={"subContainer"}>
                 <div className="flex items-start">
@@ -185,4 +187,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export { EmailError, PasswordError, validateEmail, vaidatePassword };

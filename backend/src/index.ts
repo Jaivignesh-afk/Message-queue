@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse, createServer } from "http";
 import { Server } from "socket.io";
 import { dirname, join } from "node:path";
+import jwt from "jsonwebtoken";
 
 const parentDir = join("/", dirname(__dirname), "..");
 
@@ -12,11 +13,11 @@ const server = createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
       "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, PATCH",
+      "GET, POST, PUT, DELETE, PATCH"
     );
     res.setHeader(
       "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin",
+      "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Access-Control-Allow-Origin"
     );
     res.writeHead(200);
     res.end();
@@ -28,7 +29,9 @@ const server = createServer((req, res) => {
 
 function handleAuth(req: IncomingMessage, res: ServerResponse) {
   let data = "";
+}
 
+function handlePost(data: string, req: IncomingMessage, res: ServerResponse) {
   req.on("data", (chunk) => {
     data += chunk;
   });
