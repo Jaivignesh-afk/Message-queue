@@ -6,12 +6,25 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
 node_modules
 dist
 dist-ssr
 package-lock.json 
 *.local
+
+#Django 
+.venvs
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+#Python
+*.py[cod] 
+*$py.class 
+.python-version
 
 # Editor directories and files
 .vscode/*
